@@ -1,6 +1,7 @@
 #!/bin/bash
 cd contrib/docker
-docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --build
+cat .env.template > .env
+docker-compose -f docker-compose.yml up -d --build
 docker exec ckan /usr/local/bin/ckan -c /etc/ckan/production.ini datastore set-permissions | docker exec -i db psql -U ckan
 docker cp ckan_init ckan:/
 docker exec ckan /ckan_init
